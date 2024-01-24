@@ -1,0 +1,17 @@
+torch>=2.0.1
+transformers>=4.34.1
+fairscale
+fire
+sentencepiece
+accelerate
+appdirs
+loralib
+bitsandbytes
+black
+black[jupyter]
+datasets
+peft
+py7zr
+scipy
+optimum
+matplotlib
