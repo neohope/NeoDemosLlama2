@@ -53,22 +53,22 @@ python -m llama_recipes.finetuning --use_peft --peft_method lora --quantization 
 # --enable_fsdp     是否启用FSDP（Fully Sharded Data Parallel）
 # --use_peft        是否启用PEFT（Parameter-Efficient Fine-Tuning）
 # --peft_method     可选项为lora、llama_adapter、prefix
-torchrun --nnodes 1 --nproc_per_node 4  examples/finetuning.py --enable_fsdp --use_peft --peft_method lora --model_name /patht_of_model_folder/7B --output_dir Path/to/save/PEFT/model
+torchrun --nnodes 1 --nproc_per_node 4  llama/finetuning.py --enable_fsdp --use_peft --peft_method lora --model_name /patht_of_model_folder/7B --output_dir Path/to/save/PEFT/model
 
 # LORA调优，节约内存，多GPU单节点
 # --use_fast_kernels 启用Flash Attention或Xformer memory-efficient kernels
-torchrun --nnodes 1 --nproc_per_node 4  examples/finetuning.py --enable_fsdp --use_peft --peft_method lora --use_fast_kernels --model_name /patht_of_model_folder/7B --output_dir Path/to/save/PEFT/model
+torchrun --nnodes 1 --nproc_per_node 4  llama/finetuning.py --enable_fsdp --use_peft --peft_method lora --use_fast_kernels --model_name /patht_of_model_folder/7B --output_dir Path/to/save/PEFT/model
 
 # 全参数调优70B大模型时，仅启用FSDP，多GPU单节点
-torchrun --nnodes 1 --nproc_per_node 8  examples/finetuning.py --enable_fsdp --pure_bf16 --use_fast_kernels --model_name /patht_of_model_folder/7B --dist_checkpoint_root_folder model_checkpoints --dist_checkpoint_folder fine-tuned
+torchrun --nnodes 1 --nproc_per_node 8  llama/finetuning.py --enable_fsdp --pure_bf16 --use_fast_kernels --model_name /patht_of_model_folder/7B --dist_checkpoint_root_folder model_checkpoints --dist_checkpoint_folder fine-tuned
 
 # 全参数调优70B大模型时，仅启用FSDP，大量节约内存，多GPU单节点
 # --low_cpu_fsdp 节约cpu内存
-torchrun --nnodes 1 --nproc_per_node 8 examples/finetuning.py --enable_fsdp --low_cpu_fsdp --pure_bf16 --batch_size_training 1 --model_name /patht_of_model_folder/70B --dist_checkpoint_root_folder model_checkpoints --dist_checkpoint_folder fine-tuned
+torchrun --nnodes 1 --nproc_per_node 8 llama/finetuning.py --enable_fsdp --low_cpu_fsdp --pure_bf16 --batch_size_training 1 --model_name /patht_of_model_folder/70B --dist_checkpoint_root_folder model_checkpoints --dist_checkpoint_folder fine-tuned
 
 # 使用slurm脚本，多GPU多个节点
 # Change the num nodes and GPU per nodes in the script before running.
-sbatch examples/multi_node.slurm
+sbatch llama/multi_node.slurm
 
 # 训练时可以指定数据集
 --dataset grammar_dataset

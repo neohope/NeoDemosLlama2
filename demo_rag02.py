@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding utf-8 -*-
 
+import os
 import langchain
 from langchain.chains import Replicate, RetrievalQA
 from langchain.embeddings import HuggingFaceEmbeddings
@@ -10,9 +11,13 @@ from langchain.document_loaders import PyPDFDirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter 
 
 '''
-通过Augmented Generation (RAG)技术，向量存到Chroma，提升对话效果
+# 通过Augmented Generation (RAG)技术，向量存到Chroma，提升对话效果
+# 获取授权： https://replicate.com/account/api-tokens
 '''
 
+LLAMA2_70B_CHAT = "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48"
+LLAMA2_13B_CHAT = "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d"
+os.environ["REPLICATE_API_TOKEN"] = "YOUR_KEY_HERE"
 DATA_PATH = 'https://arxiv.org/pdf/2307.09288.pdf'
 DB_CHROMA_PATH = 'vectorstore/db_faiss'
 
@@ -44,10 +49,9 @@ if __name__ == "__main__":
     embeddings = HuggingFaceEmbeddings()
     rag_store = Chroma.load_local(DB_CHROMA_PATH, embeddings)
 
-    langchain.debug=True 
-    llama2_13b_chat = "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d"
+    langchain.debug=True
     llm = Replicate(
-        model=llama2_13b_chat,
+        model=LLAMA2_13B_CHAT,
         model_kwargs={"temperature": 0.01, "top_p": 1, "max_new_tokens":500}
     )
 

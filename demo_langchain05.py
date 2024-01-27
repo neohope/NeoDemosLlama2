@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding utf-8 -*-
 
+import os
 import langchain
 from langchain.llms import Replicate
 from langchain.chains import LLMChain
@@ -10,9 +11,14 @@ from langchain.document_loaders import YoutubeLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 '''
-对视频文本进行摘要
+# 对视频文本进行摘要
 pip install langchain youtube-transcript-api tiktoken pytube
+# 获取授权： https://replicate.com/account/api-tokens
 '''
+
+LLAMA2_70B_CHAT = "meta/llama-2-70b-chat:2d19859030ff705a87c746f7e96eea03aefb71f166725aee39692f1476566d48"
+LLAMA2_13B_CHAT = "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d"
+os.environ["REPLICATE_API_TOKEN"] = "YOUR_KEY_HERE"
 
 if __name__ == "__main__":
     langchain.debug = True
@@ -26,9 +32,8 @@ if __name__ == "__main__":
     # len(docs[0].page_content), docs[0].page_content[:300]
 
     # 创建模型
-    llama2_13b = "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d"
     llm = Replicate(
-        model=llama2_13b,
+        model=LLAMA2_13B_CHAT,
         model_kwargs={"temperature": 0.01, "top_p": 1, "max_new_tokens":500}
     )
 

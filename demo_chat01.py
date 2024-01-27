@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding utf-8 -*-
 
+import fire
 from typing import List, Optional
 from llama import Llama, Dialog
-import fire
 
 '''
 # Chat模型
